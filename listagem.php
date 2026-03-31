@@ -30,7 +30,7 @@ try {
     <div class="container">
         <a class="navbar-brand" href="#">Sistema de Receitas</a>
         <div class="d-flex text-white align-items-center">
-            <span class="me-3">Olá, <?= htmlspecialchars($_SESSION['usuario_nome']) ?>!</span>
+            <span class="me-3">Ola, <?= htmlspecialchars($_SESSION['usuario_nome']) ?>!</span>
             <a href="logout.php" class="btn btn-sm btn-outline-light">Sair</a>
         </div>
     </div>
@@ -78,7 +78,7 @@ try {
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="6" class="text-center">Nenhuma receita encontrada.</td>
+                            <td colspan="6" class="text-center">Nenhuma receita foi achada</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
