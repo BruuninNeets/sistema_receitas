@@ -39,9 +39,8 @@ try {
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Receitas Cadastradas</h2>
-        <button class="btn btn-success" onclick="alert('Aqui ira para a tela  de cadastro de receita')">Nova Receita</button> 
-    </div>
-
+        <a href="cadastro_receita.php" class="btn btn-success">Nova Receita</a>
+    </div>      
     <div class="card shadow-sm">
         <div class="card-body">
             <table class="table table-striped table-hover align-middle">
@@ -71,8 +70,8 @@ try {
                                 </td>
                                 <td>R$ <?= number_format($receita['custo'], 2, ',', '.') ?></td>
                                 <td>
-                                    <button class="btn btn-sm btn-primary">Editar</button>
-                                    <button class="btn btn-sm btn-danger">Excluir</button>
+                                    <a href="editar_receita.php?id=<?= $receita['id'] ?>" class="btn btn-sm btn-primary">Editar</a>
+                                    <a href="excluir_receita.php?id=<?= $receita['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir esta receita?')">Excluir</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
