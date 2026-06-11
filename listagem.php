@@ -8,8 +8,36 @@ if (!isset($_SESSION['usuario_id'])) {
 
 require 'conexao.php';
 
+// Inicializa variáveis de filtro
+$filtro_tipo = $_GET['tipo'] ?? '';
+$filtro_data_inicio = $_GET['data_inicio'] ?? '';
+$filtro_data_fim = $_GET['data_fim'] ?? '';
+
+// Monta a Query SQL dinamicamente
+$sql = "SELECT id, nome, descricao, data_registro, custo, tipo_receita FROM receita WHERE 1=1";
+$params = [];
+
+if ($filtro_tipo !== '') {
+    $sql .= " AND tipo_receita = :tipo";
+    $params[':tipo'] = $filtro_tipo;
+}
+if ($filtro_data_inicio !== '') {
+    $sql .= " AND DATE(data_registro) >= :data_inicio";
+    $params[':data_inicio'] = $filtro_data_inicio;
+}
+if ($filtro_data_fim !== '') {
+    $sql .= " AND DATE(data_registro) <= :data_fim";
+    $params[':data_fim'] = $filtro_data_fim;
+}
+
+$sql .= " ORDER BY id DESC";
+
 try {
-    $stmt = $pdo->query("SELECT id, nome, descricao, data_registro, custo, tipo_receita FROM receita ORDER BY id DESC");
+    $stmt = $pdo->prepare($sql);
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val);
+    }
+    $stmt->execute();
     $receitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Erro ao buscar receitas: " . $e->getMessage());
@@ -39,8 +67,38 @@ try {
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Receitas Cadastradas</h2>
-        <a href="cadastro_receita.php" class="btn btn-success">Nova Receita</a>
+        <div>
+            <a href="exportar_pdf.php?<?= http_build_query($_GET) ?>" target="_blank" class="btn btn-danger me-2">Exportar PDF</a>
+            <a href="cadastro_receita.php" class="btn btn-success">Nova Receita</a>
+        </div>
     </div>      
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="GET" action="listagem.php" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Tipo de Receita</label>
+                    <select name="tipo" class="form-select">
+                        <option value="">Todas</option>
+                        <option value="doce" <?= $filtro_tipo == 'doce' ? 'selected' : '' ?>>Doce</option>
+                        <option value="salgada" <?= $filtro_tipo == 'salgada' ? 'selected' : '' ?>>Salgada</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Data Início</label>
+                    <input type="date" name="data_inicio" class="form-control" value="<?= htmlspecialchars($filtro_data_inicio) ?>">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Data Fim</label>
+                    <input type="date" name="data_fim" class="form-control" value="<?= htmlspecialchars($filtro_data_fim) ?>">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="card shadow-sm">
         <div class="card-body">
             <table class="table table-striped table-hover align-middle">
@@ -48,8 +106,8 @@ try {
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
-                        <th>Descrição</th>
                         <th>Tipo</th>
+                        <th>Data Registro</th>
                         <th>Custo</th>
                         <th>Ações</th>
                     </tr>
@@ -60,7 +118,6 @@ try {
                             <tr>
                                 <td><?= $receita['id'] ?></td>
                                 <td class="fw-bold"><?= htmlspecialchars($receita['nome']) ?></td>
-                                <td><?= htmlspecialchars($receita['descricao']) ?></td>
                                 <td>
                                     <?php if ($receita['tipo_receita'] == 'doce'): ?>
                                         <span class="badge bg-warning text-dark">Doce</span>
@@ -68,6 +125,7 @@ try {
                                         <span class="badge bg-danger">Salgada</span>
                                     <?php endif; ?>
                                 </td>
+                                <td><?= date('d/m/Y H:i', strtotime($receita['data_registro'])) ?></td>
                                 <td>R$ <?= number_format($receita['custo'], 2, ',', '.') ?></td>
                                 <td>
                                     <a href="editar_receita.php?id=<?= $receita['id'] ?>" class="btn btn-sm btn-primary">Editar</a>
@@ -77,7 +135,7 @@ try {
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="6" class="text-center">Nenhuma receita foi achada</td>
+                            <td colspan="6" class="text-center">Nenhuma receita foi encontrada com estes filtros.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
