@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $descricao = trim($_POST['descricao']);
     $tipo_receita = $_POST['tipo_receita'];
     
-    // Substitui vírgula por ponto para o banco de dados (Decimal)
     $custo = str_replace(',', '.', trim($_POST['custo']));
 
     if (empty($nome) || empty($tipo_receita) || empty($custo)) {
@@ -29,9 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':custo', $custo);
             
             if ($stmt->execute()) {
+                require_once 'mailer.php';
+                $assunto = "Nova Receita Cadastrada: " . $nome;
+                $mensagem = "<h1>Nova Receita Adicionada!</h1>
+                             <p>A receita <strong>{$nome}</strong> foi cadastrada com sucesso no sistema.</p>
+                             <p><strong>Tipo:</strong> {$tipo_receita}</p>
+                             <p><strong>Custo:</strong> R$ " . number_format((float)$custo, 2, ',', '.') . "</p>";
+                
+                dispararEmail($assunto, $mensagem);
+
                 header("Location: listagem.php");
                 exit;
             }
+
         } catch (PDOException $e) {
             $erro = "Erro ao cadastrar receita: " . $e->getMessage();
         }

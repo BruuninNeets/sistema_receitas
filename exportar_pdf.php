@@ -5,14 +5,12 @@ if (!isset($_SESSION['usuario_id'])) {
     die("Acesso negado.");
 }
 
-// Carrega o autoload do Composer para habilitar o Dompdf
 require 'vendor/autoload.php';
 require 'conexao.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-// Captura os mesmos filtros que vieram da listagem
 $filtro_tipo = $_GET['tipo'] ?? '';
 $filtro_data_inicio = $_GET['data_inicio'] ?? '';
 $filtro_data_fim = $_GET['data_fim'] ?? '';
@@ -41,7 +39,6 @@ foreach ($params as $key => $val) {
 $stmt->execute();
 $receitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Monta o HTML que será convertido em PDF
 $html = '
 <!DOCTYPE html>
 <html>
@@ -85,16 +82,14 @@ $html .= '
 </body>
 </html>';
 
-// Instancia e configura o Dompdf
 $options = new Options();
 $options->set('isHtml5ParserEnabled', true);
 $options->set('isRemoteEnabled', true);
 
 $dompdf = new Dompdf($options);
 $dompdf->loadHtml($html);
-$dompdf->setPaper('A4', 'portrait'); // Formato A4, orientação retrato
+$dompdf->setPaper('A4', 'portrait'); 
 $dompdf->render();
 
-// Envia o PDF para o navegador
 $dompdf->stream("relatorio_receitas.pdf", ["Attachment" => false]);
 ?>
