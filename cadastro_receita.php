@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = trim($_POST['nome']);
     $descricao = trim($_POST['descricao']);
     $tipo_receita = $_POST['tipo_receita'];
-    
+
     $custo = str_replace(',', '.', trim($_POST['custo']));
 
     if (empty($nome) || empty($tipo_receita) || empty($custo)) {
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':descricao', $descricao);
             $stmt->bindParam(':tipo_receita', $tipo_receita);
             $stmt->bindParam(':custo', $custo);
-            
+
             if ($stmt->execute()) {
                 require_once 'mailer.php';
                 $assunto = "Nova Receita Cadastrada: " . $nome;
@@ -34,13 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                              <p>A receita <strong>{$nome}</strong> foi cadastrada com sucesso no sistema.</p>
                              <p><strong>Tipo:</strong> {$tipo_receita}</p>
                              <p><strong>Custo:</strong> R$ " . number_format((float)$custo, 2, ',', '.') . "</p>";
-                
+
                 dispararEmail($assunto, $mensagem);
 
                 header("Location: listagem.php");
                 exit;
             }
-
         } catch (PDOException $e) {
             $erro = "Erro ao cadastrar receita: " . $e->getMessage();
         }
@@ -76,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <h4 class="mb-0">Cadastrar Nova Receita</h4>
                 </div>
                 <div class="card-body">
-                    <?php if ($erro): ?>
+                    <?php if ($erro) : ?>
                         <div class="alert alert-danger"><?= $erro ?></div>
                     <?php endif; ?>
 
