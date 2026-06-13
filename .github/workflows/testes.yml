@@ -1,0 +1,25 @@
+name: Pipeline de Testes Unitarios
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  testar_codigo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Baixar o codigo do repositorio
+      uses: actions/checkout@v3
+
+    - name: Preparar o ambiente PHP 8.2
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        coverage: none
+
+    - name: Instalar dependencias do projeto (Composer)
+      run: composer install --no-progress
+
+    - name: Executar a Bateria de 20 Testes (PHPUnit)
+      run: vendor/bin/phpunit tests/
