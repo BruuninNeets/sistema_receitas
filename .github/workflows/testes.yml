@@ -1,11 +1,11 @@
-name: Pipeline de Testes Unitarios
+name: Pipeline de Qualidade e Testes
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  testar_codigo:
+  testar_e_analisar_codigo:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,9 +21,15 @@ jobs:
     - name: Instalar dependencias do projeto (Composer)
       run: composer install --no-progress
 
-    - name: Executar a Bateria de 20 Testes (PHPUnit)
+    - name: 1. Executar Testes Unitarios (PHPUnit)
       run: php vendor/bin/phpunit tests/
       env:
         DB_HOST: banco_falso_ci
         SMTP_PASS: senha_falsa_ci
         SMTP_PORT: 587
+
+    - name: 2. Analisar Estetica do Codigo (PHP CodeSniffer)
+      run: php vendor/bin/phpcs -n --standard=PSR12 cadastro_receita.php editar_receita.php
+
+    - name: 3. Analisar Qualidade Logica (PHP Mess Detector)
+      run: php vendor/bin/phpmd cadastro_receita.php,editar_receita.php text cleancode,codesize,naming
