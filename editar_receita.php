@@ -35,9 +35,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             
             if ($stmt->execute()) {
+                require_once 'mailer.php';
+                $assunto = "Receita Atualizada: " . $nome;
+                $mensagem = "<h1>Receita Atualizada!</h1>
+                             <p>A receita <strong>{$nome}</strong> foi modificada com sucesso no sistema.</p>
+                             <p><strong>Novo Tipo:</strong> {$tipo_receita}</p>
+                             <p><strong>Novo Custo:</strong> R$ " . number_format((float)$custo, 2, ',', '.') . "</p>";
+                
+                dispararEmail($assunto, $mensagem);
+
                 header("Location: listagem.php");
                 exit;
             }
+            
         } catch (PDOException $e) {
             $erro = "Erro ao atualizar receita: " . $e->getMessage();
         }
