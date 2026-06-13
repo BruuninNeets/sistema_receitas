@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':tipo_receita', $tipo_receita);
             $stmt->bindParam(':custo', $custo);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            
+
             if ($stmt->execute()) {
                 require_once 'mailer.php';
                 $assunto = "Receita Atualizada: " . $nome;
@@ -41,13 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                              <p>A receita <strong>{$nome}</strong> foi modificada com sucesso no sistema.</p>
                              <p><strong>Novo Tipo:</strong> {$tipo_receita}</p>
                              <p><strong>Novo Custo:</strong> R$ " . number_format((float)$custo, 2, ',', '.') . "</p>";
-                
+
                 dispararEmail($assunto, $mensagem);
 
                 header("Location: listagem.php");
                 exit;
             }
-            
         } catch (PDOException $e) {
             $erro = "Erro ao atualizar receita: " . $e->getMessage();
         }
@@ -60,7 +59,7 @@ try {
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $receita = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     if (!$receita) {
         header("Location: listagem.php"); // Volta se o ID não existir
         exit;
@@ -98,7 +97,7 @@ try {
                     <h4 class="mb-0">Editar Receita</h4>
                 </div>
                 <div class="card-body">
-                    <?php if ($erro): ?>
+                    <?php if ($erro) : ?>
                         <div class="alert alert-danger"><?= $erro ?></div>
                     <?php endif; ?>
 
