@@ -26,7 +26,6 @@ function dispararEmail($assunto, $mensagemHtml) {
         $mail->send();
         return true;
     } catch (Exception $e) {
-        // Em um sistema real, você pode salvar esse erro num log
         error_log("O e-mail não pôde ser enviado. Erro do Mailer: {$mail->ErrorInfo}");
         return false;
     }
