@@ -6,7 +6,7 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-require 'conexao.php';
+require_once 'conexao.php';
 
 // Inicializa variáveis de filtro
 $filtro_tipo = $_GET['tipo'] ?? '';
@@ -77,20 +77,21 @@ try {
         <div class="card-body">
             <form method="GET" action="listagem.php" class="row g-3 align-items-end">
                 <div class="col-md-3">
-                    <label class="form-label">Tipo de Receita</label>
-                    <select name="tipo" class="form-select">
+                    <label class="form-label" for="filtro_tipo">Tipo de Receita</label>
+                    <select name="tipo_receita" id="filtro_tipo" class="form-select">
+                        </select>
                         <option value="">Todas</option>
                         <option value="doce" <?= $filtro_tipo == 'doce' ? 'selected' : '' ?>>Doce</option>
                         <option value="salgada" <?= $filtro_tipo == 'salgada' ? 'selected' : '' ?>>Salgada</option>
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">Data Início</label>
-                    <input type="date" name="data_inicio" class="form-control" value="<?= htmlspecialchars($filtro_data_inicio) ?>">
+                    <label class="form-label" for="data_inicio">Data Início</label>
+                    <input type="date" name="data_inicio" id="data_inicio" class="form-control">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">Data Fim</label>
-                    <input type="date" name="data_fim" class="form-control" value="<?= htmlspecialchars($filtro_data_fim) ?>">
+                    <label class="form-label" for="data_fim">Data Fim</label>
+                    <input type="date" name="data_fim" id="data_fim" class="form-control">
                 </div>
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-primary w-100">Filtrar</button>

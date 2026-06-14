@@ -8,7 +8,7 @@ if (isset($_SESSION['usuario_id'])) {
 
 $erro = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require 'conexao.php';
+    require_once 'conexao.php';
 
     $login = trim($_POST['login']);
     $senha = trim($_POST['senha']);

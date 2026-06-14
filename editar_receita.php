@@ -6,7 +6,7 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-require 'conexao.php';
+require_once 'conexao.php';
 $erro = '';
 
 // Verifica se o ID foi passado na URL

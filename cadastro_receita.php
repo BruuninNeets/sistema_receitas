@@ -9,7 +9,7 @@ if (!isset($_SESSION['usuario_id'])) {
 $erro = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require 'conexao.php';
+    require_once 'conexao.php';
 
     $nome = trim($_POST['nome']);
     $descricao = trim($_POST['descricao']);

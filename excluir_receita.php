@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 if (isset($_GET['id'])) {
-    require 'conexao.php';
+    require_once 'conexao.php';
     $id = $_GET['id'];
 
     try {

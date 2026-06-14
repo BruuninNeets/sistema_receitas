@@ -5,8 +5,8 @@ if (!isset($_SESSION['usuario_id'])) {
     die("Acesso negado.");
 }
 
-require 'vendor/autoload.php';
-require 'conexao.php';
+require_once 'vendor/autoload.php';
+require_once 'conexao.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
