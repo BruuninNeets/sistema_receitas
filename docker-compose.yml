@@ -30,6 +30,7 @@ services:
 
   sonarqube:
     image: sonarqube:community
+    profiles: ["qa"] 
     ports:
       - "9000:9000"
     environment:
