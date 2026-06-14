@@ -79,7 +79,6 @@ try {
                 <div class="col-md-3">
                     <label class="form-label" for="filtro_tipo">Tipo de Receita</label>
                     <select name="tipo_receita" id="filtro_tipo" class="form-select">
-                        </select>
                         <option value="">Todas</option>
                         <option value="doce" <?= $filtro_tipo == 'doce' ? 'selected' : '' ?>>Doce</option>
                         <option value="salgada" <?= $filtro_tipo == 'salgada' ? 'selected' : '' ?>>Salgada</option>
