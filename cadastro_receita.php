@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once 'conexao.php';
 
     $nome = trim($_POST['nome']);
+    $variavel_esquecida = "testando";
     $descricao = trim($_POST['descricao']);
     $tipo_receita = $_POST['tipo_receita'];
 
@@ -100,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="custo" class="form-label">Custo de Produção (R$) *</label>
+                                <label for="custo" class="form-label">Custo de Total (R$) *</label>
                                 <input type="text" class="form-control" id="custo" name="custo" placeholder="00,00" required>
                             </div>
                         </div>
