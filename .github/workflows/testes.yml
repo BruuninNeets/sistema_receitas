@@ -29,7 +29,7 @@ jobs:
         SMTP_PORT: 587
 
     - name: 2. Analisar Estetica do Codigo (PHP CodeSniffer)
-      run: php vendor/bin/phpcs -n --standard=PSR12 cadastro_receita.php editar_receita.php
+      run: hp vendor/bin/phpcs -n --standard=PSR12 cadastro_receita.php editar_receita.php
 
     - name: 3. Analisar Qualidade Logica (PHP Mess Detector)
       run: php vendor/bin/phpmd cadastro_receita.php,editar_receita.php text cleancode,codesize,naming
