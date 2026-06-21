@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once 'conexao.php';
 
     $nome = trim($_POST['nome']);
+    $x = 1;
     $descricao = trim($_POST['descricao']);
     $tipo_receita = $_POST['tipo_receita'];
 
