@@ -32,7 +32,6 @@ services:
   
   flyway:
     image: flyway/flyway:latest
-    container_name: sistema_receitas_${APP_ENV:-homolog}-flyway
     volumes:
       - ./db/migration:/flyway/sql
     environment:
