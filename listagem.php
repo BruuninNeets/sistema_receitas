@@ -56,7 +56,7 @@ try {
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container">
-        <a class="navbar-brand" href="#">Sistema de Receitas</a>
+        <a class="navbar-brand" href="#">Sistema de Receitas TOP</a>
         <div class="d-flex text-white align-items-center">
             <span class="me-3">Ola, <?= htmlspecialchars($_SESSION['usuario_nome']) ?>!</span>
             <a href="logout.php" class="btn btn-sm btn-outline-light">Sair</a>
