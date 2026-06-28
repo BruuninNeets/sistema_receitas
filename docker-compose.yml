@@ -30,6 +30,18 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  
+  flyway:
+    image: flyway/flyway:latest
+    container_name: sistema_receitas_${APP_ENV:-homolog}-flyway
+    volumes:
+      - ./db/migration:/flyway/sql
+    environment:
+      - FLYWAY_URL=jdbc:mysql://db:3306/sistema_receitas 
+      - FLYWAY_USER=root
+      - FLYWAY_PASSWORD=FsT#8723S
+    depends_on:
+      - db
 
   sonarqube:
     image: sonarqube:community
