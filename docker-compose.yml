@@ -29,7 +29,6 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
     volumes:
       - db_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   
   flyway:
     image: flyway/flyway:latest
@@ -42,6 +41,7 @@ services:
       - FLYWAY_PASSWORD=FsT#8723S
     depends_on:
       - db
+    command: migrate
 
   sonarqube:
     image: sonarqube:community
