@@ -66,7 +66,7 @@ try {
 
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Receitas Cadastradas</h2>
+        <h2>Receitas Cadastradas TOP</h2>
         <div>
             <a href="exportar_pdf.php?<?= http_build_query($_GET) ?>" target="_blank" class="btn btn-danger me-2">Exportar PDF</a>
             <a href="cadastro_receita.php" class="btn btn-success">Nova Receita</a>
